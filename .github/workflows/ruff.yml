@@ -1,37 +1,26 @@
-name: Ruff check
+name: Ruff Code Check
 
 on:
   push:
-    branches: ["**"]    # запускать на каждом пуше в любую ветку
+    branches: [ main, master, develop ]
   pull_request:
-    branches: ["**"]
+    branches: [ main, master, develop ]
 
 jobs:
   ruff:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'  # при необходимости поменяйте версию
+          python-version: '3.x'
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Install Ruff
+        run: pip install ruff
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install ruff
-
-      - name: Run ruff (style check)
-        # ruff возвращает ненулевой код выхода при проблемах — workflow упадёт
-        run: |
-          ruff check . --output-format github
+      - name: Run Ruff check
+        run: ruff check . --output-format github
