@@ -34,4 +34,4 @@ jobs:
       - name: Run ruff (style check)
         # ruff возвращает ненулевой код выхода при проблемах — workflow упадёт
         run: |
-          ruff check . --format github
+          ruff check . --output-format github
