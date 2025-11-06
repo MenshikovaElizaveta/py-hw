@@ -1,0 +1,42 @@
+name: Python Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11, 3.12]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest
+        
+    - name: Discover and test Python projects
+      run: |
+        # Ищем папки с test_*.py файлами
+        for dir in */; do
+          if [ -d "$dir" ] && [ -n "$(find "$dir" -name 'test_*.py' -type f -print -quit)" ]; then
+            echo "🧪 Testing project: $dir with Python ${{ matrix.python-version }}"
+            cd "$dir"
+            pytest -v --tb=short
+            cd ..
+          else
+            echo "⏭️  Skipping $dir - no test files found"
+          fi
+        done
