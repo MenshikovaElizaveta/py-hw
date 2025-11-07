@@ -1,0 +1,20 @@
+[tool.ruff.lint]
+  extend-select = [
+      "F",
+      "W",
+      "E",
+      "I",
+      "N",
+      "UP",
+      "C4",
+      "FA",
+      "ISC",
+      "ICN",
+      "RET",
+      "SIM",
+      "E501",
+  ]
+
+[tool.pytest.ini_options]
+testpaths = "test"
+pythonpath = '.'
