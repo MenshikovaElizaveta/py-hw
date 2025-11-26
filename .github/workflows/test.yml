@@ -18,9 +18,4 @@ jobs:
         run: |
           ruff check --output-format=github
       - name: Run unit-tests
-        run: |
-            if [ -d "test" ] || find . -name "test_*.py" -print -quit | grep -q .; then
-                python -m pytest test/*
-            else
-                echo "Папка тестов не найдена, пропускаем тесты"
-            if
+        run: python -m pytest test/*
