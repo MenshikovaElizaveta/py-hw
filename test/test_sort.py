@@ -1,6 +1,6 @@
 import pytest
 from sort import Sort
-from conftest import random_n
+from conftest import random_numbers
 
 
 """обычные unit тесты + крайние случаи"""
